@@ -1,21 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  getStorybookUI,
+  configure,
+  addDecorator,
+} from '@storybook/react-native';
+import { AppRegistry } from 'react-native';
+import { register as registerKnobs, withKnobs } from '@storybook/addon-ondevice-knobs';
+import { register as registerActions } from '@storybook/addon-ondevice-actions';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+registerKnobs();
+registerActions();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
+//import AsyncStorage from '@react-native-community/async-storage';
+
+addDecorator(withKnobs);
+
+configure(() => {
+  require('./components/stories.js');
+}, module);
+
+export default getStorybookUI({
+  asyncStorage: null,
 });
